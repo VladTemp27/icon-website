@@ -1,14 +1,18 @@
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
+
+import { LoginPage } from './pages/Login/LoginPage'
+import { Dashboard } from './pages/Dashboard'
+import { BrowserRouter, Routes, Route} from 'react-router-dom'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-svh">
-      <Button>Click me</Button>
-    </div>
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<LoginPage />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+    </Routes>
+  </BrowserRouter>
 )
 }
 
