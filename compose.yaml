@@ -1,0 +1,45 @@
+services:
+  backend:
+    build:
+      context: ./icon-backend
+      dockerfile: Dockerfile
+    ports:
+      - "1425:1425"
+    network:
+      - default
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    network:
+      - default
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER:-root}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:-root}
+
+  mongo-express:
+    image: mongo-express:latest
+    ports:
+      - "8081:8081"
+    network:
+      - default
+    depends_on:
+      - mongo
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_ROOT_USER:-root}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_ROOT_PASSWORD:-root}
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_MONGODB_PORT: 27017
+
+  
+volmes:
+  mongo-data:
+    driver: local
+
+networks:
+  default:
+    name: icon-backend-network
+    driver: bridge
