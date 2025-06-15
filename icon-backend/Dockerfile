@@ -8,8 +8,6 @@ RUN npm install --omit=dev
 
 COPY . .
 
-RUN npm run build
-
 EXPOSE 1525
 
-CMD ["node", "dist/index.js"]
+CMD ["node", "index.js"]
