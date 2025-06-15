@@ -1,6 +1,8 @@
 const express = require('express');
+const path = require('path')
+const dotenv = require('dotenv')
+
 const userRouter = require('./api/users.js')
-const path = require('path');
 const eventsRouter = require('./api/events.js');
 
 const PORT = 1525
