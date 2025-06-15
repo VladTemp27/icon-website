@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "1425:1425"
-    network:
+    networks:
       - default
 
   mongo:
@@ -14,7 +14,7 @@ services:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
-    network:
+    networks:
       - default
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER:-root}
@@ -24,7 +24,7 @@ services:
     image: mongo-express:latest
     ports:
       - "8081:8081"
-    network:
+    networks:
       - default
     depends_on:
       - mongo
@@ -35,7 +35,7 @@ services:
       ME_CONFIG_MONGODB_PORT: 27017
 
   
-volmes:
+volumes:
   mongo-data:
     driver: local
 
