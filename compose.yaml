@@ -4,7 +4,9 @@ services:
       context: ./icon-backend
       dockerfile: Dockerfile
     ports:
-      - "1425:1425"
+      - "1525:1525"
+    volumes:
+      - ./icon-backend:/app
     networks:
       - default
 
@@ -19,6 +21,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER:-root}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:-root}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE:-icon}
 
   mongo-express:
     image: mongo-express:latest
