@@ -35,7 +35,6 @@ const userSchema = new mongoose.Schema({
     },
 })
 
-// TODO: Hash the password before saving
 userSchema.pre('save', function(next) {
     if (this.isModified('password')) {
         const bcrypt = require('bcrypt');
@@ -45,9 +44,11 @@ userSchema.pre('save', function(next) {
                 return next(err);
             }
             this.password = hash;
+            next();
         });
+    } else {
+        next();
     }
-    next();
 });
 
 userSchema.methods.toJSON = function() {
@@ -86,9 +87,12 @@ userSchema.statics.findByEmail = async function(email) {
 
 userSchema.statics.authenticate = async function(username, password) {
     const user = await this.findOne({ username });
-    password = bcrypt.hashSync(password, 10); // Hash the password for comparison
+    if (!user) {
+        throw new Error('Invalid credentials');
+    }
     
-    if (!user || user.password !== password) {
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
         throw new Error('Invalid credentials');
     }
 
@@ -96,6 +100,7 @@ userSchema.statics.authenticate = async function(username, password) {
     user.__v = undefined;
     return user;
 }
+
 
 userSchema.statics.register = async function(username, password, email) {
     const existingUser = await this.findOne({ username });
@@ -173,4 +178,4 @@ userSchema.statics.getUsersByRole = async function(role) {
     });
 }
 
-modules.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('User', userSchema);
