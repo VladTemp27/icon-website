@@ -1,8 +1,9 @@
 const jwt = require('jsonwebtoken')
-const { use } = require('react')
 
 const JWT_SECRET = process.env.JWT_SECRET || 'defaultsecretkey'
 const JWT_EXIRES_IN = '1h'
+
+console.log('JWT_SECRET:', JWT_SECRET)
 
 function generateToken(user, expiry = JWT_EXIRES_IN) {
     const payload = {
