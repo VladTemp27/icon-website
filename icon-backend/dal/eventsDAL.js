@@ -4,6 +4,7 @@ const Event = require('../models/Event.model.js')
 async function createEvent(eventData, userId) {
     try {
         validateEventData(eventData)
+        console.log(userId)
         const event = new Event({
             ...eventData,
             createdBy: userId,
@@ -85,11 +86,7 @@ async function updateEventById(eventId, eventData, userId) {
             eventId,
             eventData,
             userId
-        ).populate('createdBy', 'name username')
-         .populate('modifiedBy', 'name username')
-         .populate('organizers', 'name username')
-         .populate('attendees', 'name username')
-         .populate('teams.members', 'name username');
+        );
 
         if (!updatedEvent) {
             throw new Error('Event not found');
@@ -103,6 +100,8 @@ async function updateEventById(eventId, eventData, userId) {
 }
 
 function validateEventData(eventData) {
+    console.log('Validating event data:', eventData);
+    console.log(eventData.name)
     if (!eventData.name){
         throw new Error('Event name is required');
     }
@@ -113,10 +112,6 @@ function validateEventData(eventData) {
 
     if (!eventData.date) {
         throw new Error('Event date is required');
-    }
-
-    if(!eventData.createdBy){
-        throw new Error ('Event must have a creator')
     }
 
     if(!eventData.organizingCommittee) {
