@@ -8,12 +8,12 @@ const eventsRouter = express.Router()
 eventsRouter.use(express.json())
 
 eventsRouter.post('/create', authorize('officer', 'executive'), eventsController.handleCreate)
-eventsRouter.get('/:eventId', eventsController.handleGetById)
+eventsRouter.get('/event/:eventId', eventsController.handleGetById)
 eventsRouter.get('/all', authorize('officer', 'executive'), eventsController.handleGetAll)
 eventsRouter.get('/active', eventsController.handleGetActive)
 eventsRouter.get('/non-active', authorize('officer', 'executive'), eventsController.handleGetNonActive)
-eventsRouter.delete('/:eventId', authorize('officer', 'executive'), eventsController.handleDeletebyEventId)
-eventsRouter.put('/:eventId', authorize('officer', 'executive'), eventsController.handleUpdateByEventId)
+eventsRouter.delete('/event/:eventId', authorize('officer', 'executive'), eventsController.handleDeletebyEventId)
+eventsRouter.put('/event/:eventId', authorize('officer', 'executive'), eventsController.handleUpdateByEventId)
 
 
 eventsRouter.get('/health', (req, res) => {
