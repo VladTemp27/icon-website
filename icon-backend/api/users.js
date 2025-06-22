@@ -6,17 +6,18 @@ const {
     getUsersByRole,
     getUserByUsername,
     getUserbyEmail,
-    deleteUser
+    deleteUser,
+    updateRole
         } = require('../dal/userDAL.js')
 
 const userRouter = express.Router()
 userRouter.use(express.json())
 
+const { authorize } = require('./middleware/authorize.js')
+
 userRouter.get('/health', (req, res) => {
     res.json({"message":"users api healthy"})
 })
-
-//TODO: Restrict who and what can access these endpoints
 
 //TODO: Return error message if user already exists
 userRouter.post('/register', async (req, res) => {
@@ -32,7 +33,6 @@ userRouter.post('/register', async (req, res) => {
 })
 
 //TODO: Return error message if user does not exist
-const { updateRole } = require('../dal/userDAL.js')
 userRouter.post('/update/points', async (req, res) => {
     console.log('Received request to update points:', req.body)
     const { username, points } = req.body
@@ -45,8 +45,8 @@ userRouter.post('/update/points', async (req, res) => {
     }
 })
 
-//TODO: update must only be done by admin
-userRouter.post('/update/role', async (req, res) => {
+//FIXME: This endpoint should not use authorize middleware, as it is used to update the role. This should cross validate with actual role from db
+userRouter.post('/update/role', authorize('executive') ,async (req, res) => {
     console.log('Received request to update role:', req.body)
     const { username, role } = req.body
     try {
@@ -59,7 +59,7 @@ userRouter.post('/update/role', async (req, res) => {
 })
 
 
-userRouter.get('/all', async (req, res) => {
+userRouter.get('/all', authorize('executive'),async (req, res) => {
     try {
         const users = await getAllUsers()
         res.status(200).json(users)
@@ -69,7 +69,7 @@ userRouter.get('/all', async (req, res) => {
     }
 })
 
-userRouter.get('/role/:role', async (req, res) => {
+userRouter.get('/role/:role', authorize('officer'),async (req, res) => {
     const { role } = req.params
     try {
         const users = await getUsersByRole(role)
@@ -83,6 +83,12 @@ userRouter.get('/role/:role', async (req, res) => {
 userRouter.get('/user/:username', async (req, res) => {
     const { username } = req.params
     console.log('Received request to fetch user:', username)
+
+    if (req.user.username !== username && req.user.role !== 'executive') {
+        console.warn('Unauthorized access attempt by user:', req.user.username)
+        return res.status(403).json({ error: 'Forbidden: You do not have permission to access this resource' })
+    }
+
     try {
         const user = await getUserByUsername(username)
         if (!user) {
@@ -111,7 +117,7 @@ userRouter.get('/email/:email', async (req, res) => {
     }
 })
 
-userRouter.delete('/:username', async (req, res) => {
+userRouter.delete('/:username', authorize('executive'),async (req, res) => {
     const { username } = req.params
     console.log('Received request to delete user:', username)
     try {
