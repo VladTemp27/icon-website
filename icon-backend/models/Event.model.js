@@ -72,7 +72,7 @@ eventSchema.methods.toJSON = function() {
     return eventObject;
 }
 
-eventSchema.static.modify = async function (eventId, updateData, modifiedBy) {
+eventSchema.statics.modify = async function (eventId, updateData, modifiedBy) {
     const event = await this.findById(eventId);
     if (!event) {
         throw new Error('Event not found');
@@ -85,11 +85,18 @@ eventSchema.static.modify = async function (eventId, updateData, modifiedBy) {
     })
 
     event.modifiedBy = modifiedBy;
-    await event.save();
-    return event;
+    const updatedEvent = await event.save();
+    await updatedEvent.populate([
+        { path: 'createdBy', select: 'name username' },
+        { path: 'modifiedBy', select: 'name username' },
+        { path: 'organizers', select: 'name username' },
+        { path: 'attendees', select: 'name username' },
+        { path: 'teams.members', select: 'name username' }
+    ]);
+    return updatedEvent;
 }
 
-eventSchema.static.getById = async function (eventId) {
+eventSchema.statics.getById = async function (eventId) {
     const event = await this.findById(eventId)
         .populate('createdBy', 'name username')
         .populate('modifiedBy', 'name username')
@@ -104,7 +111,7 @@ eventSchema.static.getById = async function (eventId) {
     return event;
 }
 
-eventSchema.static.getAll = async function () {
+eventSchema.statics.getAll = async function () {
     const events = await this.find({})
         .populate('createdBy', 'name username')
         .populate('modifiedBy', 'name username')
@@ -115,7 +122,7 @@ eventSchema.static.getAll = async function () {
     return events;
 }
 
-eventSchema.static.getOnFilter = async function (filter){
+eventSchema.statics.getOnFilter = async function (filter){
     const query = {};
 
     if (filter.isPublic !== undefined) {
@@ -138,7 +145,7 @@ eventSchema.static.getOnFilter = async function (filter){
     return events;
 }
 
-eventSchema.static.deleteById = async function (eventId) {
+eventSchema.statics.deleteById = async function (eventId) {
     const event = await this.findByIdAndDelete(eventId);
     if (!event) {
         throw new Error('Event not found');
@@ -147,4 +154,4 @@ eventSchema.static.deleteById = async function (eventId) {
     return event;
 }
 
-module.exports = eventSchema
+module.exports = mongoose.model('Event', eventSchema);
