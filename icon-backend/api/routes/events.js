@@ -1,8 +1,8 @@
 const express = require('express')
-const eventsController = require('./controller/eventsController')
-const { handleCreate } = require('./controller/eventsController.js')
-const { authorize } = require('./middleware/authorize.js')
-const { events } = require('../models/User.model.js')
+const eventsController = require('../controller/eventsController.js')
+const { handleCreate } = require('../controller/eventsController.js')
+const { authorize } = require('../middleware/authorize.js')
+const { events } = require('../../models/User.model.js')
 
 const eventsRouter = express.Router()
 eventsRouter.use(express.json())
