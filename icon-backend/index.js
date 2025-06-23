@@ -16,6 +16,7 @@ const { authenticate } = require('./api/middleware/authorize.js')
 const userRouter = require('./api/routes/users.js')
 const eventsRouter = require('./api/routes/events.js');
 const authRouter = require('./api/routes/auth.js')
+const leaderboardRouter = require('./api/routes/leaderboard.js')
 
 connectToDatabase()
     .then(() => console.log('Database connected successfully'))
@@ -28,6 +29,7 @@ app.use(express.json());
 app.use('/api/users', authenticate, userRouter)
 app.use('/api/events', authenticate, eventsRouter)
 app.use('/api/auth', authRouter)
+app.use('/api/leaderboard', authenticate, leaderboardRouter)
 
 app.get('/health', (req, res) => {
     res.json({'message': 'server running'})
