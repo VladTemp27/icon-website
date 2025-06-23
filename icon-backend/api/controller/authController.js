@@ -1,5 +1,5 @@
 const {authenticateUser} = require('../../dal/userDAL.js')
-const { generateToken, verifyToken } = require('../../services/jwt.js')
+const { generateToken, verifyToken } = require('../../util/jwt.js')
 
 
 async function handleLogin(req, res) {
