@@ -13,9 +13,9 @@ const {
 const { authenticate } = require('./api/middleware/authorize.js')
 
 
-const userRouter = require('./api/users.js')
-const eventsRouter = require('./api/events.js');
-const authRouter = require('./api/auth.js')
+const userRouter = require('./api/routes/users.js')
+const eventsRouter = require('./api/routes/events.js');
+const authRouter = require('./api/routes/auth.js')
 
 connectToDatabase()
     .then(() => console.log('Database connected successfully'))
