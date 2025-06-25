@@ -1,12 +1,15 @@
 import { useState } from 'react';
-import { Form, Input, Button, Typography, Divider, Space, message, Card } from 'antd';
+import { Form, Input, Button, Typography, Divider, Space, message, Card, Alert } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router';
 
 const { Title, Text } = Typography;
 
+import axios, {AxiosError} from 'axios';
+
 function Login() {
     const [loading, setLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const navigate = useNavigate();
     
     const onFinish = async (values: { username: string; password: string }) => {
@@ -15,14 +18,43 @@ function Login() {
             // Replace with actual API call
             console.log('Login attempt with:', values);
             
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            const response = await axios.post('http://localhost:1525/api/auth/login', {
+                username: values.username,
+                password: values.password
+            });
+
+            localStorage.setItem('token', response.data.token);   
             
             message.success('Login successful!');
-            // Navigate to dashboard or home page after successful login
-            // navigate('/dashboard');
+            navigate('/home/dashboard');
         } catch (error) {
-            message.error('Login failed. Please check your credentials.');
+            if(!axios.isAxiosError(error)) {
+                console.error('Unexpected error:', error);
+                setErrorMessage('An unexpected error occurred. Please try again later.');
+                return;
+            }
+            const axiosError = error as AxiosError<any>;
+            if(!axiosError.response) {
+                console.error('Network error:', axiosError);
+                setErrorMessage('Network error. Please check your connection and try again.');
+                return;
+            }
+            if (axiosError.response.status !== 200){
+                switch (axiosError.response.status) {
+                    case 400:
+                        setErrorMessage('Invalid username or password.');
+                        break;
+                    case 401:
+                        setErrorMessage('Unauthorized access. Please check your credentials.');
+                        break;
+                    case 429:
+                        setErrorMessage('Too many login attempts. Please try again later.');
+                        break;
+                    case 500:
+                        setErrorMessage('Server error. Please try again later.');
+                        break;
+                }
+            }
         } finally {
             setLoading(false);
         }
@@ -45,6 +77,16 @@ function Login() {
                     <Title level={2} style={{ marginBottom: '8px', fontSize: '28px' }}>Welcome Back</Title>
                     <Text type="secondary">Please sign in to continue</Text>
                 </div>
+
+                {errorMessage && (
+                    <Alert
+                        message={errorMessage}
+                        type="error"
+                        showIcon
+                        style={{ marginBottom: 24, borderRadius: '8px' }}
+                    />
+                )}
+
 
                 <Form
                     name="login_form"

@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router';
 import AuthRoutes from './AuthRoutes';
+import HomeRoutes from './HomeRoutes';
 
 import NotFound from '../pages/NotFound'
 
@@ -9,6 +10,12 @@ function AppRoutes() {
             <Route path="/" element={<Navigate to="/auth/login" replace />} />
             {/* Auth routes */}
             {AuthRoutes}
+
+            {/* Home routes */}
+            {HomeRoutes}
+
+            {/* Catch-all route for 404 Not Found */}
+
             <Route path="*" element={<NotFound />} />
         </Routes>
     );
