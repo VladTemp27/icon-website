@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path')
 const dotenv = require('dotenv')
+const cors = require('cors')
 
 const envPath = path.join(__dirname, './.env')
 dotenv.config({path : envPath})
@@ -24,6 +25,13 @@ connectToDatabase()
 const PORT = 1525
 
 const app = express();
+
+app.use(cors({
+    origin: process.env.CORS_ORIGIN || '*', // Allow all origins by default, can be overridden by environment variable
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
 app.use(express.json());
 
 app.use('/api/users', authenticate, userRouter)
