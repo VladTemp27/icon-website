@@ -23,6 +23,10 @@ const eventSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }],
+    isTeamEvent: {
+        type: Boolean,
+        default: false
+    },
     teams: [{
         name: {
             type: String,
