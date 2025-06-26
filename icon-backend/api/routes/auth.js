@@ -1,6 +1,5 @@
 const express = require('express')
 const authController = require('../controller/authController.js')
-const { authenticate } = require('../middleware/authorize.js')
 
 const { environmentMiddleware } = require('../middleware/environment.js')
 
@@ -12,6 +11,6 @@ authRouter.get('/health', (req, res) => {
 })
 
 authRouter.post('/login', authController.handleLogin)
-authRouter.post('/verify',authenticate ,authController.handleJWTVerify)
+authRouter.post('/jwt/verify',environmentMiddleware('development'),authController.handleJWTVerify)
 
 module.exports = authRouter
