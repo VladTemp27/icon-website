@@ -33,8 +33,10 @@ async function handleLogin(req, res) {
 
 async function handleJWTVerify(req, res) {
     if(!req.user){
+        console.error('JWT verification failed: No user found in request')
         return res.status(401).json({ message: 'Unauthorized' })
     }
+    console.log('JWT verification successful for user:', req.user.username)
     res.status(200).json({ message: 'Token is valid' })
 }
 
