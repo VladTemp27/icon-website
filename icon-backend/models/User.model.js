@@ -88,7 +88,7 @@ userSchema.statics.findByEmail = async function(email) {
 userSchema.statics.authenticate = async function(username, password) {
     const user = await this.findOne({ username });
     if (!user) {
-        throw new Error('User not found');
+        throw new Error('Invalid credentials');
     }
     
     const isMatch = await bcrypt.compare(password, user.password);
