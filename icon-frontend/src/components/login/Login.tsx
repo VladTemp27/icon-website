@@ -24,6 +24,8 @@ function Login() {
             });
 
             await localStorage.setItem('token', response.data.token);
+            await localStorage.setItem('role', response.data.role);
+            await localStorage.setItem('username', response.data.username);
             
             message.success('Login successful!');
             navigate('/home/dashboard');
