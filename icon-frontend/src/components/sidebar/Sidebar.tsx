@@ -13,6 +13,8 @@ import './side.css';
 const { Sider } = Layout;
 const { useToken } = theme;
 
+import getMenuItems from "./MenuItem";
+
 interface SidebarProps {
   collapsed?: boolean;
   onCollapse?: (collapsed: boolean) => void;
@@ -62,32 +64,7 @@ function Sidebar({ collapsed = false, onCollapse }: SidebarProps) {
           fontSize: "20px"
         }}
         theme="dark"
-        items={[
-          {
-            key: 'dashboard',
-            icon: <DashboardOutlined style={{ fontSize: '30px' }} />,
-            label: 'Dashboard',
-            onClick: () => navigate('/home/dashboard')
-          },
-          {
-            key: 'events',
-            icon: <CalendarOutlined style={{ fontSize: '30px' }} />,
-            label: 'Events',
-            onClick: () => navigate('/home/events')
-          },
-          {
-            key: 'members',
-            icon: <TeamOutlined style={{ fontSize: '30px' }} />,
-            label: 'Members',
-            onClick: () => navigate('/home/members')
-          },
-          {
-            key: 'settings',
-            icon: <SettingOutlined style={{ fontSize: '30px' }} />,
-            label: 'Settings',
-            onClick: () => navigate('/home/settings')
-          }
-        ]}
+        items={getMenuItems()}
         className="home-sidebar-menu"
       />
     </Sider>
