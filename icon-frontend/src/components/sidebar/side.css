@@ -1,0 +1,43 @@
+/* Make sure the selected item uses the primary color from theme */
+.home-sidebar-menu .ant-menu-item-selected {
+  background-color: var(--primary-color) !important; /* Using the primary color */
+  color: #fff !important;
+}
+
+/* Add a subtle glow effect to make it stand out more */
+.home-sidebar-menu .ant-menu-item-selected::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 8px;
+  box-shadow: 0 0 12px 2px var(--primary-color);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* Hover state should be different but complementary */
+.home-sidebar-menu .ant-menu-item:hover:not(.ant-menu-item-selected) {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.home-sidebar-menu .ant-menu-item {
+  height: 60px !important;
+  line-height: 60px !important;
+  margin: 16px 0 !important;
+  border-radius: 8px !important;
+  padding-left: 16px !important;
+  transition: all 0.3s ease !important;
+}
+
+.home-sidebar-menu .ant-menu-item .anticon {
+  margin-right: 20px !important;
+}
+/* Ensure icons are visible in collapsed mode */
+.ant-layout-sider-collapsed .sidebar-icon {
+  display: block !important;
+  margin: 0 auto !important;
+  font-size: 24px !important;
+}

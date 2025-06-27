@@ -1,0 +1,97 @@
+import { Layout, Menu, theme } from "antd";
+import {
+  DashboardOutlined,
+  SettingOutlined,
+  TeamOutlined,
+  CalendarOutlined,
+} from '@ant-design/icons';
+import { useNavigate } from 'react-router';
+import { useState, useEffect } from "react";
+
+import './side.css';
+
+const { Sider } = Layout;
+const { useToken } = theme;
+
+interface SidebarProps {
+  collapsed?: boolean;
+  onCollapse?: (collapsed: boolean) => void;
+}
+
+function Sidebar({ collapsed = false, onCollapse }: SidebarProps) {
+  const navigate = useNavigate();
+  const [internalCollapsed, setInternalCollapsed] = useState(collapsed);
+  const { token } = useToken();
+  
+  // Use either external or internal collapsed state
+  const isCollapsed = onCollapse ? collapsed : internalCollapsed;
+  
+  // Handle collapse toggling
+  const handleCollapse = (value: boolean) => {
+    if (onCollapse) {
+      onCollapse(value);
+    } else {
+      setInternalCollapsed(value);
+    }
+  };
+
+  // Set CSS variables for theme colors
+  useEffect(() => {
+    document.documentElement.style.setProperty('--primary-color', token.colorPrimary);
+    document.documentElement.style.setProperty('--primary-color-light', token.colorPrimaryBg);
+  }, [token.colorPrimary, token.colorPrimaryBg]);
+
+  return (
+    <Sider 
+      width={280}
+      collapsible 
+      collapsed={isCollapsed}
+      onCollapse={handleCollapse}
+      style={{
+        overflow: "auto",
+        height: "calc(100vh - 64px)"
+      }}
+      theme="dark"
+    >
+      <Menu
+        mode="inline"
+        defaultSelectedKeys={['dashboard']}
+        style={{ 
+          padding: "24px 8px",
+          height: "100%",
+          fontSize: "20px"
+        }}
+        theme="dark"
+        items={[
+          {
+            key: 'dashboard',
+            icon: <DashboardOutlined style={{ fontSize: '30px' }} />,
+            label: 'Dashboard',
+            onClick: () => navigate('/home/dashboard')
+          },
+          {
+            key: 'events',
+            icon: <CalendarOutlined style={{ fontSize: '30px' }} />,
+            label: 'Events',
+            onClick: () => navigate('/home/events')
+          },
+          {
+            key: 'members',
+            icon: <TeamOutlined style={{ fontSize: '30px' }} />,
+            label: 'Members',
+            onClick: () => navigate('/home/members')
+          },
+          {
+            key: 'settings',
+            icon: <SettingOutlined style={{ fontSize: '30px' }} />,
+            label: 'Settings',
+            onClick: () => navigate('/home/settings')
+          }
+        ]}
+        className="home-sidebar-menu"
+      />
+    </Sider>
+  );
+}
+
+export default Sidebar;
