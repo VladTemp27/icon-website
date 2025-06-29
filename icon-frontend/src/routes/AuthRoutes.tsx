@@ -9,7 +9,7 @@ const AuthRouter = (
         <Route index element={<Login/>} />
         <Route path="login" element={<Login/>} />
         <Route path="register" element={<Register />} />
-        <Route path="forgot-password" element={<h1>Contact you admin hehe</h1>} />
+        <Route path="forgot-password" element={<h1>Contact the admin hehe</h1>} />
     </Route>
 );
 
