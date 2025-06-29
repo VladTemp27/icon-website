@@ -1,11 +1,4 @@
 import { Layout, Menu, theme } from "antd";
-import {
-  DashboardOutlined,
-  SettingOutlined,
-  TeamOutlined,
-  CalendarOutlined,
-} from '@ant-design/icons';
-import { useNavigate } from 'react-router';
 import { useState, useEffect } from "react";
 
 import './side.css';
@@ -21,7 +14,6 @@ interface SidebarProps {
 }
 
 function Sidebar({ collapsed = false, onCollapse }: SidebarProps) {
-  const navigate = useNavigate();
   const [internalCollapsed, setInternalCollapsed] = useState(collapsed);
   const { token } = useToken();
   

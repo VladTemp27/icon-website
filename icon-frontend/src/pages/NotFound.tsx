@@ -2,7 +2,7 @@ import { Layout, Typography, Button, Space, Result } from 'antd';
 import { useNavigate } from 'react-router';
 
 const { Content } = Layout;
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 function NotFound() {
     const navigate = useNavigate();

@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router';
+import { Route } from 'react-router';
 
 import HomeLayout from '../components/layout/HomeLayout';
 import {RequireAuth} from '../util/authUtils'
