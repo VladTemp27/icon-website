@@ -1,21 +1,18 @@
-import { Layout, Menu, Row, Col, Typography, theme, Avatar, Button, Dropdown } from "antd"
+import { Layout, theme, Avatar, Button, Dropdown } from "antd"
 import { Outlet } from "react-router"
 import { useEffect, useState } from "react"
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   UserOutlined,
-  DashboardOutlined,
   SettingOutlined,
-  TeamOutlined,
-  CalendarOutlined,
   LogoutOutlined
 } from '@ant-design/icons';
 import type { MenuProps } from "antd";
 import { useNavigate } from 'react-router';
 import Sidebar from "../sidebar/Sidebar";
 
-const { Content, Header, Sider } = Layout
+const { Content, Header } = Layout
 const { useToken } = theme
 
 function HomeLayout() {
