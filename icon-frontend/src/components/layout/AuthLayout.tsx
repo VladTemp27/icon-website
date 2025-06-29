@@ -1,4 +1,4 @@
-import { Layout, Row, Col, Typography, theme } from "antd"
+import { Layout, Row, Col, theme } from "antd"
 import { Outlet } from "react-router"
 import { useEffect } from "react"
 
