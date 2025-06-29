@@ -2,6 +2,16 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
+    firstName: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    lastName: {
+        type: String,
+        required: true,
+        trim: true
+    },
     username: {
         type: String,
         required: true,
@@ -102,7 +112,7 @@ userSchema.statics.authenticate = async function(username, password) {
 }
 
 
-userSchema.statics.register = async function(username, password, email) {
+userSchema.statics.register = async function(firstName, lastName,username, password, email) {
     const existingUser = await this.findOne({ username });
     if (existingUser) {
         throw new Error('Username already exists');
@@ -117,7 +127,7 @@ userSchema.statics.register = async function(username, password, email) {
         throw new Error('All fields are required');
     }
 
-    const newUser = new this({ username, password, email });
+    const newUser = new this({ firstName, lastName, username, password, email });
     await newUser.save();
     return newUser;
 }

@@ -2,9 +2,9 @@ const User = require('../models/User.model')
 const mongoose = require('mongoose')
 
 // FIXME: Known errors should have their own error classes
-async function createUser(username, password, email) {
+async function createUser( firstName, lastName,username, password, email) {
     try {
-        const newUser = await User.register(username, password, email)
+        const newUser = await User.register( firstName, lastName,username, password, email)
         return newUser
     } catch (error) {
         console.error('Error creating user:', error)
