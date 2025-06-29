@@ -1,5 +1,5 @@
 import { BrowserRouter } from 'react-router';
-import { ConfigProvider, theme, Space, Input, Button } from 'antd';
+import { ConfigProvider, theme} from 'antd';
 import AppRoutes from './routes/AppRoutes';
 //import './App.css'
 import './reset.css'
