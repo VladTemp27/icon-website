@@ -6,7 +6,7 @@ import './side.css';
 const { Sider } = Layout;
 const { useToken } = theme;
 
-import getMenuItems from "./MenuItem";
+import useMenuItems from "./MenuItem";
 
 interface SidebarProps {
   collapsed?: boolean;
@@ -56,7 +56,7 @@ function Sidebar({ collapsed = false, onCollapse }: SidebarProps) {
           fontSize: "20px"
         }}
         theme="dark"
-        items={getMenuItems()}
+        items={useMenuItems()}
         className="home-sidebar-menu"
       />
     </Sider>
