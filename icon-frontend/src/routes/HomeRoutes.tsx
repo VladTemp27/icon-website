@@ -6,6 +6,8 @@ import {RequireAuth} from '../util/authUtils'
 import { IndexRedirect, CheckRole } from '../util/home-router-helper';
 import Loading from '../pages/Loading';
 
+import Leaderboard from '../components/leaderboard/Leaderboard';
+
 const HomeRoutes = (
         <Route path='/home' element={<RequireAuth><HomeLayout /></RequireAuth>}>
             <Route index element={<IndexRedirect/>} />
@@ -14,7 +16,7 @@ const HomeRoutes = (
             <Route path='profile' element={<h1>Profile</h1>} />
             <Route path='help' element={<h1>Help</h1>} />
             <Route path='events' element={<h1>Events</h1>} />
-            <Route path='leaderboards' element={<h1>Leaderboards</h1>} />
+            <Route path='leaderboards' element={<Leaderboard/>} />
             <Route path='payments' element={<h1>Payments</h1>} />
             <Route path='announcements' element={<h1>Announcements</h1>} />
         </Route>
