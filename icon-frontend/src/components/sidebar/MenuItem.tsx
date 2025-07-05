@@ -8,7 +8,7 @@ import {
   BellOutlined
 } from '@ant-design/icons';
 
-function getMenuItems() {
+function useMenuItems() {
     const navigate = useNavigate();
     const role = localStorage.getItem('role');
 
@@ -83,4 +83,4 @@ const memberMenuItems = [
     }
 }
 
-export default getMenuItems;
+export default useMenuItems;
