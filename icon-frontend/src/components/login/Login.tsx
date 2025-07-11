@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Form, Input, Button, Typography, Divider, Space, message, Card, Alert } from 'antd';
+import { Form, Input, Button, Typography, Divider, message, Card, Alert } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router';
 
@@ -24,6 +24,8 @@ function Login() {
             });
 
             await localStorage.setItem('token', response.data.token);
+            await localStorage.setItem('role', response.data.role);
+            await localStorage.setItem('username', response.data.username);
             
             message.success('Login successful!');
             navigate('/home/dashboard');
@@ -33,7 +35,7 @@ function Login() {
                 setErrorMessage('An unexpected error occurred. Please try again later.');
                 return;
             }
-            const axiosError = error as AxiosError<any>;
+            const axiosError = error as AxiosError<unknown>;
             if(!axiosError.response) {
                 console.error('Network error:', axiosError);
                 setErrorMessage('Network error. Please check your connection and try again.');

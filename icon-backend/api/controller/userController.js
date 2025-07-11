@@ -3,9 +3,9 @@ const UserDAL = require('../../dal/userDAL.js')
 //TODO: Return error message if user already exists
 async function handleRegister(req, res) {
     console.log('Received request to create user:', req.body)
-    const { username, password, email } = req.body
+    const { firstName, lastName, username, password, email } = req.body
     try {
-        const newUser = await UserDAL.createUser(username, password, email)
+        const newUser = await UserDAL.createUser( firstName, lastName,username, password, email)
         res.status(201).json(newUser)
     } catch (error) {
         console.error('Error creating user:', error)

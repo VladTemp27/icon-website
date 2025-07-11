@@ -22,6 +22,7 @@ async function handleLogin(req, res) {
             token: token,
             name: user.name,
             username: user.username,
+            role: user.role,
         })
 
     } catch (error) {

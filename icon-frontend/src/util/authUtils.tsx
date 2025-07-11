@@ -45,7 +45,7 @@ export const RequireAuth = ({ children }: { children: JSX.Element }) => {
         } else {
             setIsAuthenticated(false);
         }
-    })
+    },[])
 
     if( isAuthenticated === null) {
         return <Loading />;
